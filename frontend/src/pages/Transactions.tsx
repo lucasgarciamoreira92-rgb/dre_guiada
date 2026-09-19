@@ -43,7 +43,7 @@ export function Transactions({ company, period, direction }: { company: Company;
         <label>Filtrar status<select aria-label="Filtrar status" value={filter} onChange={e => setFilter(e.target.value)}><option value="ALL">Todos</option><option value="CONFIRMED">Classificados</option><option value="PENDING">Não classificados</option></select></label>
       </div>
       <div className="table-wrap"><table><thead><tr>{["Data", "Competência", "Descrição", "Valor", "Categoria", "Subcategoria", "Status", "Ações"].map(h => <th key={h}>{h}</th>)}</tr></thead><tbody>
-        {visible.map(t => <tr key={t.id}>
+        {visible.map(t => <tr id={`transaction-${t.id}`} key={t.id}>
           <td>{t.transaction_date.split("-").reverse().join("/")}</td><td>{String(t.competence_month).padStart(2, "0")}/{t.competence_year}</td><td>{t.description}</td><td className="amount">{money(cents(t.amount), company.currency)}</td>
           <td>{categoryLabels[t.main_category]}</td><td>{subs.find(s => s.id === t.subcategory_id)?.name ?? "—"}</td><td><span className={`status ${t.classification_status === "PENDING" ? "pending" : ""}`}>{t.classification_status === "CONFIRMED" ? "Classificado" : "Não classificado"}</span></td>
           <td><div className="actions"><button disabled={period.status === "closed"} onClick={() => setEditor(t)}>Editar</button><button disabled={period.status === "closed"} onClick={() => { setError(""); setDeleting(t); }}>Excluir</button></div></td>

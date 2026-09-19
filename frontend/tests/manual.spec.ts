@@ -24,7 +24,7 @@ async function add(page: Page, direction: "receita" | "saída", description: str
   await expect(dialog).not.toBeVisible();
 }
 
-test("four required transactions, exact totals, isolation, persistence and no DRE", async ({ page, request }) => {
+test("four required transactions, exact totals, isolation and persistence", async ({ page, request }) => {
   const errors: string[] = [];
   page.on("pageerror", e => errors.push(e.message));
   const id = await setup(page);
@@ -42,8 +42,8 @@ test("four required transactions, exact totals, isolation, persistence and no DR
   await expect(page.getByRole("heading", { name: "DRE — Agosto/2026" })).toBeVisible();
   await expect(page.getByRole("progressbar", { name: "Receitas" })).toHaveAttribute("aria-valuenow", "100");
   await expect(page.getByRole("progressbar", { name: "Saídas" })).toHaveAttribute("aria-valuenow", "100");
-  await expect(page.getByText("Ainda não disponível", { exact: true })).toBeVisible();
-  await expect(page.getByRole("button", { name: "DRE Em breve", exact: true })).toBeDisabled();
+  await expect(page.getByText("Calculada", { exact: true })).toBeVisible();
+  await expect(page.getByRole("button", { name: "DRE", exact: true })).toBeEnabled();
   const revenues = (await (await request.get(`/api/periods/${id}/revenues`)).json()).data;
   const expenses = (await (await request.get(`/api/periods/${id}/expenses`)).json()).data;
   expect(revenues).toHaveLength(1); expect(expenses).toHaveLength(3);

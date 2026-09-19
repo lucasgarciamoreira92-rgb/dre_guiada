@@ -426,3 +426,30 @@ td .actions button { padding: 7px 10px; font-size: 12px; }
 .table-wrap table { min-width: 920px; }
 td { overflow-wrap: normal; }
 td:first-child, td:nth-child(2), td .actions button, .status { white-space: nowrap; }
+.dre-sheet { background: #ffffffbd; border: 1px solid #e2e6dd; border-radius: 18px; overflow: hidden; margin: 24px 0; }
+.dre-line { display: flex; justify-content: space-between; align-items: center; gap: 24px; padding: 16px 22px; border-bottom: 1px solid #e7ebe4; }
+.dre-line:last-child { border-bottom: 0; }
+.dre-label { display: flex; gap: 10px; align-items: center; }
+.dre-label > span { width: 14px; flex-shrink: 0; color: #607169; }
+.dre-label button { border: 0; background: transparent; padding: 4px 0; text-align: left; font-size: 15px; }
+.dre-label h2 { font-size: 15px; margin: 4px 0; }
+.dre-label button small { color: #26705a; margin-left: 6px; }
+.dre-value { font-variant-numeric: tabular-nums; white-space: nowrap; font-weight: 600; }
+.dre-result { background: #edf2e9; }
+.dre-final { background: #26705a; color: white; }
+.dre-final p, .dre-final .dre-label > span { color: #dcebe2; }
+.guide-note { font-size: 12px; line-height: 1.55; margin: 8px 0 0; max-width: 520px; }
+.dre-line .guide-note { margin-left: 24px; }
+.notice { background: #f4e9cf; color: #805a1c; border-radius: 12px; padding: 14px 18px; }
+.detail-total { font-size: 20px; font-weight: 600; color: #216148; }
+.detail-groups, .detail-items, .adjustment-list { list-style: none; margin: 0; padding: 0; }
+.detail-groups li { display: flex; justify-content: space-between; gap: 20px; padding: 14px 0; border-bottom: 1px solid #e2e6dd; }
+.detail-groups small { display: block; }
+.detail-items li { display: grid; grid-template-columns: 1fr auto; gap: 8px; padding: 16px 0; border-bottom: 1px solid #e2e6dd; overflow-wrap: anywhere; }
+.detail-items small, .detail-items a { grid-column: 1 / -1; }
+.detail-items a { margin: 0; font-size: 13px; }
+.adjustment-list { display: grid; gap: 16px; }
+.adjustment-list p { overflow-wrap: anywhere; }
+:target { outline: 2px solid #459477; outline-offset: -2px; }
+.dashboard-results .metric strong { font-size: clamp(18px, 2vw, 25px); overflow-wrap: anywhere; }
+@media (max-width: 640px) { .dre-line { padding: 14px; gap: 12px; align-items: flex-start; flex-direction: column; } .dre-value { align-self: flex-end; } .section-heading { flex-wrap: wrap; } .detail-items { font-size: 14px; } }

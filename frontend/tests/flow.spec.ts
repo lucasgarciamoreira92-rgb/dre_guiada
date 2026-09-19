@@ -24,9 +24,9 @@ test("complete flow, persistence, guided mode and responsive layout", async ({
   for (const [label, value] of [
     ["Receitas", "0%"],
     ["Saídas", "0%"],
-    ["Informações complementares", "Pendente"],
+    ["Informações complementares", "Ajustes manuais"],
     ["Pendências", "0"],
-    ["DRE", "Ainda não disponível"],
+    ["DRE", "Calculada"],
   ]) {
     const card = page
       .locator("section")

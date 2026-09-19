@@ -5,13 +5,15 @@ from fastapi.exceptions import RequestValidationError
 from fastapi.responses import JSONResponse
 from starlette.exceptions import HTTPException
 
+from app.api.dre import router as dre_router
 from app.api.routes import router
 from app.api.manual import router as manual_router
 from app.core.errors import AppError
 
-app = FastAPI(title="DRE Guiada — Marco 2", version="0.1.0")
+app = FastAPI(title="DRE Guiada — Marco 3", version="0.1.0")
 app.include_router(router)
 app.include_router(manual_router)
+app.include_router(dre_router)
 
 
 def error(code, message, status, details=None):
@@ -37,11 +39,17 @@ async def validation_error(request: Request, exc: RequestValidationError):
         "transaction_date": "Informe uma data válida.",
         "main_category": "Escolha uma categoria válida.",
         "direction": "Escolha receita ou saída.",
+        "type": "Escolha um tipo de ajuste válido.",
+        "observation": "Informe a justificativa do ajuste.",
+        "deduction_kind": "Escolha o tipo de dedução da receita.",
+        "line": "Escolha uma linha detalhável da DRE.",
         "month": "O mês deve ser um número inteiro entre 1 e 12.",
         "year": "O ano deve ser um número inteiro entre 1900 e 2100.",
         "currency": "Informe a moeda com três letras.",
         "guided_mode": "Informe se o Modo Guiado está ativo.",
     }
+    if "/adjustments" in request.url.path and any(e["loc"] == ("body",) for e in exc.errors()):
+        return error("VALIDATION_ERROR", "Informe um subtipo somente para deduções da receita.", 422)
     fields = [
         {
             "field": str(e["loc"][-1]),

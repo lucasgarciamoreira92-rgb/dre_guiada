@@ -73,6 +73,7 @@ class Transaction(Base):
         CheckConstraint("classification_status IN ('PENDING','CONFIRMED')", name='ck_transaction_classification'),
         CheckConstraint("dre_effect IN ('GROSS_REVENUE','COST','OPERATING_EXPENSE','FINANCIAL_REVENUE','FINANCIAL_EXPENSE','NO_EFFECT','PENDING')", name='ck_transaction_effect'),
         Index('ix_transactions_period_direction', 'period_id', 'direction'),
+        Index('ix_transactions_company_competence', 'company_id', 'competence_year', 'competence_month'),
     )
     id: Mapped[int] = mapped_column(primary_key=True)
     company_id: Mapped[int] = mapped_column(ForeignKey('companies.id'), index=True)

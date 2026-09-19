@@ -4,6 +4,8 @@ import { Welcome } from "./pages/Welcome";
 import { Setup } from "./pages/Setup";
 import { Overview } from "./pages/Overview";
 import { Transactions } from "./pages/Transactions";
+import { DrePage } from "./pages/Dre";
+import { Adjustments } from "./pages/Adjustments";
 import { Settings } from "./pages/Settings";
 import { Sidebar } from "./components/Sidebar";
 import { api } from "./services/api";
@@ -11,7 +13,7 @@ import type { Company, Period } from "./types";
 import "./styles/app.css";
 function App() {
   const [page, setPage] = useState<
-    "welcome" | "setup" | "overview" | "settings" | "revenues" | "expenses"
+    "welcome" | "setup" | "overview" | "settings" | "revenues" | "expenses" | "dre" | "adjustments"
   >("welcome");
   const [company, setCompany] = useState<Company | null>(null),
     [period, setPeriod] = useState<Period | null>(null);
@@ -27,7 +29,8 @@ function App() {
         const c = await api<Company>(`/companies/${p.company_id}`);
         setPeriod(p);
         setCompany(c);
-        setPage("overview");
+        const area = new URLSearchParams(location.search).get("area");
+        setPage(area === "revenues" || area === "expenses" || area === "adjustments" || area === "dre" ? area : "overview");
       }
     } catch (err) {
       setError(
@@ -73,6 +76,10 @@ function App() {
             <Settings company={company} onChange={setCompany} />
           ) : page === "revenues" || page === "expenses" ? (
             <Transactions key={page} company={company} period={period} direction={page === "revenues" ? "IN" : "OUT"} />
+          ) : page === "dre" ? (
+            <DrePage company={company} period={period} onAdjustments={() => setPage("adjustments")} />
+          ) : page === "adjustments" ? (
+            <Adjustments company={company} period={period} />
           ) : (
             <Overview company={company} period={period} onRevenues={() => setPage("revenues")} />
           )}

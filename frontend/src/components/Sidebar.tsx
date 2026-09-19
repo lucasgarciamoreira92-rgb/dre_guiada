@@ -3,7 +3,7 @@ export function Sidebar({
   onNavigate,
 }: {
   page: string;
-  onNavigate: (p: "overview" | "settings" | "revenues" | "expenses") => void;
+  onNavigate: (p: "overview" | "settings" | "revenues" | "expenses" | "dre" | "adjustments") => void;
 }) {
   return (
     <aside>
@@ -20,10 +20,10 @@ export function Sidebar({
         </button>
         <button className={page === "revenues" ? "active" : ""} onClick={() => onNavigate("revenues")}>Receitas</button>
         <button className={page === "expenses" ? "active" : ""} onClick={() => onNavigate("expenses")}>Saídas</button>
+        <button className={page === "adjustments" ? "active" : ""} onClick={() => onNavigate("adjustments")}>Informações Complementares</button>
+        <button className={page === "dre" ? "active" : ""} onClick={() => onNavigate("dre")}>DRE</button>
         {[
-          "Informações Complementares",
           "Pendências",
-          "DRE",
         ].map((x) => (
           <button disabled key={x} title="Disponível em um próximo marco">
             {x}

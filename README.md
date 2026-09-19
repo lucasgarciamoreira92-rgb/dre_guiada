@@ -1,6 +1,6 @@
 # DRE Guiada — MVP v0.1
 
-Estágio atual: **Marco 2 — Lançamentos Manuais**, implementado e sujeito à validação no Mac. Fluxo: boas-vindas → empresa → período → receitas/saídas manuais → visão do fechamento. Não há importações, IA, cálculo da DRE ou fechamento/reabertura. Veja [regras e API do Marco 2](docs/MARCO_2.md).
+Estágio atual: **Marco 3 — Motor da DRE**, implementado e sujeito à validação no Mac. Fluxo: empresa → período → lançamentos manuais → ajustes explícitos → DRE por competência. Não há importações, IA, fechamento/reabertura, integrações ou EBITDA. Veja [regras e validação do Marco 3](docs/MARCO_3.md).
 
 ## Stack e requisitos
 
@@ -71,7 +71,7 @@ Sucesso: `{"data": ...}`. Erros: `{"error":{"code":"...","message":"...","detail
 
 Boas-vindas com passos explicativos; formulário de empresa/período com bloqueio de envio duplicado; visão do fechamento com indicadores iniciais; Receitas e Saídas com CRUD manual e menu lateral com demais áreas futuras desabilitadas; configurações com dados básicos e alternância persistida do Modo Guiado. Layout off-white e verde com responsividade básica.
 
-A URL `?period=ID` permite reabrir o período persistido ao recarregar. A criação de empresa e período usa duas requisições, conforme o fluxo solicitado. Se a segunda falhar, a empresa permanece cadastrada e a tentativa seguinte reutiliza seu ID enquanto o formulário estiver aberto. Não existe transação distribuída entre essas duas chamadas. Áreas posteriores ao Marco 2 são apenas marcadores visuais.
+A URL `?period=ID` permite reabrir o período persistido ao recarregar. A criação de empresa e período usa duas requisições, conforme o fluxo solicitado. Se a segunda falhar, a empresa permanece cadastrada e a tentativa seguinte reutiliza seu ID enquanto o formulário estiver aberto. Não existe transação distribuída entre essas duas chamadas. Áreas posteriores ao Marco 3 são apenas marcadores visuais.
 
 ## Testes
 
@@ -126,7 +126,7 @@ dre_guiada/
   .gitignore
 ```
 
-O Git ignora bancos locais, ambientes virtuais, node_modules, builds, caches e secrets. Marco 3 não implementado.
+O Git ignora bancos locais, ambientes virtuais, node_modules, builds, caches e secrets. Marco 4 não implementado.
 
 ## Padronização — Marco 1.1
 
@@ -137,3 +137,7 @@ Veja [procedimento e limitações](docs/MARCO_1_1.md).
 ## Lançamentos manuais
 
 A migration `0002_m2_transactions_subcategories.py` adiciona lançamentos e as 20 subcategorias padrão por empresa. Receitas e Saídas possuem CRUD, busca, filtros e totais exatos. Configurações permite gerenciar subcategorias. Execute `./scripts/validate_local.sh` para validar todos os marcos. Detalhes e comandos do Mac em [Marco 2](docs/MARCO_2.md).
+
+## Motor da DRE — Marco 3
+
+A migration `0003_m3_dre_engine_adjustments.py` adiciona ajustes do período e índice de competência. A API calcula a DRE exclusivamente no backend, com Decimal, detalhes rastreáveis e margens. O filtro é empresa + competência, independente da data ou do período de cadastro. As migrations anteriores são preservadas. Tela DRE, indicadores e ajustes explícitos estão disponíveis. Execute `./scripts/validate_local.sh` para validar todos os marcos. Fórmulas, regras de deduções e cenários em [Marco 3](docs/MARCO_3.md).
