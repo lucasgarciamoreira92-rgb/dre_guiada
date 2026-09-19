@@ -1,0 +1,5 @@
+#!/usr/bin/env bash
+set -euo pipefail
+cd "$(git rev-parse --show-toplevel)"
+# A falha informa o problema; não desfaz o merge já realizado.
+exec backend/.venv/bin/python scripts/validate.py

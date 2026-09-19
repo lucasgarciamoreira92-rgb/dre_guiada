@@ -127,3 +127,9 @@ dre_guiada/
 ```
 
 O Git ignora bancos locais, ambientes virtuais, node_modules, builds, caches e secrets. Marco 2 não implementado.
+
+## Padronização — Marco 1.1
+
+Diretório oficial no Mac: `/Users/lucasmoreira/Projetos/dre_guiada`.
+Execute `bash scripts/setup.sh` e `backend/.venv/bin/python scripts/validate.py`.
+Veja [procedimento e limitações](docs/MARCO_1_1.md).

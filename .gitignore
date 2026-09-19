@@ -19,3 +19,5 @@ playwright-report/
 
 *.tsbuildinfo
 .ruff_cache/
+
+validation-results/
