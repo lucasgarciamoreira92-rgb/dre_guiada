@@ -35,7 +35,7 @@ test("complete flow, persistence, guided mode and responsive layout", async ({
   }
   await expect(
     page.getByRole("button", { name: "Começar pelas Receitas" }),
-  ).toBeDisabled();
+  ).toBeEnabled();
   const id = new URL(page.url()).searchParams.get("period");
   const p = (await (await request.get(`/api/periods/${id}`)).json()).data;
   expect(p).toMatchObject({

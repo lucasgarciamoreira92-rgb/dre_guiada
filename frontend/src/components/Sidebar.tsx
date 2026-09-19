@@ -3,7 +3,7 @@ export function Sidebar({
   onNavigate,
 }: {
   page: string;
-  onNavigate: (p: "overview" | "settings") => void;
+  onNavigate: (p: "overview" | "settings" | "revenues" | "expenses") => void;
 }) {
   return (
     <aside>
@@ -18,9 +18,9 @@ export function Sidebar({
         >
           Visão Geral
         </button>
+        <button className={page === "revenues" ? "active" : ""} onClick={() => onNavigate("revenues")}>Receitas</button>
+        <button className={page === "expenses" ? "active" : ""} onClick={() => onNavigate("expenses")}>Saídas</button>
         {[
-          "Receitas",
-          "Saídas",
           "Informações Complementares",
           "Pendências",
           "DRE",

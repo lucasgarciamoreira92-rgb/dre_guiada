@@ -3,6 +3,7 @@ import { createRoot } from "react-dom/client";
 import { Welcome } from "./pages/Welcome";
 import { Setup } from "./pages/Setup";
 import { Overview } from "./pages/Overview";
+import { Transactions } from "./pages/Transactions";
 import { Settings } from "./pages/Settings";
 import { Sidebar } from "./components/Sidebar";
 import { api } from "./services/api";
@@ -10,7 +11,7 @@ import type { Company, Period } from "./types";
 import "./styles/app.css";
 function App() {
   const [page, setPage] = useState<
-    "welcome" | "setup" | "overview" | "settings"
+    "welcome" | "setup" | "overview" | "settings" | "revenues" | "expenses"
   >("welcome");
   const [company, setCompany] = useState<Company | null>(null),
     [period, setPeriod] = useState<Period | null>(null);
@@ -70,8 +71,10 @@ function App() {
         <main className="workspace">
           {page === "settings" ? (
             <Settings company={company} onChange={setCompany} />
+          ) : page === "revenues" || page === "expenses" ? (
+            <Transactions key={page} company={company} period={period} direction={page === "revenues" ? "IN" : "OUT"} />
           ) : (
-            <Overview company={company} period={period} />
+            <Overview company={company} period={period} onRevenues={() => setPage("revenues")} />
           )}
         </main>
       </div>

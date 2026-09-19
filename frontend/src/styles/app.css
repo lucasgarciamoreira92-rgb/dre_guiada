@@ -395,3 +395,34 @@ a {
     grid-template-columns: 85px 1fr;
   }
 }
+textarea { font: inherit; width: 100%; min-height: 75px; resize: vertical; border: 1px solid #d9dfd7; border-radius: 10px; padding: 12px; color: inherit; }
+textarea:focus-visible { outline: 3px solid #459477; outline-offset: 3px; }
+dialog { border: 1px solid #d9dfd7; border-radius: 20px; background: #fafaf5; color: inherit; padding: 24px; width: min(640px, calc(100% - 32px)); max-height: 90vh; overflow-y: auto; box-shadow: 0 20px 80px #19372b33; }
+dialog::backdrop { background: #173c3555; backdrop-filter: blur(3px); }
+dialog .help { margin: 0 0 18px; }
+.section-heading, .actions { display: flex; align-items: center; gap: 10px; }
+.section-heading { justify-content: space-between; margin-bottom: 16px; }
+.section-heading h2 { margin: 0; }
+.summary { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 20px; margin: 28px 0; }
+.summary h2 { color: #607169; font-size: 14px; margin: 0 0 12px; }
+.summary strong { font-size: 26px; }
+.toolbar { display: flex; align-items: end; flex-wrap: wrap; gap: 16px; margin: 25px 0; }
+.toolbar label { margin: 0; flex: 1; min-width: 180px; }
+.table-wrap { width: 100%; overflow-x: auto; background: #ffffffbd; border: 1px solid #e2e6dd; border-radius: 14px; }
+table { border-collapse: collapse; width: 100%; font-size: 13px; }
+th, td { padding: 14px 12px; text-align: left; border-bottom: 1px solid #e5e9e2; }
+th { background: #eaf0e7; white-space: nowrap; font-weight: 600; }
+td { max-width: 280px; overflow-wrap: anywhere; }
+td.amount { white-space: nowrap; font-variant-numeric: tabular-nums; }
+td .actions button { padding: 7px 10px; font-size: 12px; }
+.status { display: inline-block; background: #e0ebe3; color: #216148; border-radius: 8px; padding: 5px 8px; font-size: 11px; }
+.status.pending { background: #f4e9cf; color: #805a1c; }
+.empty { padding: 25px; text-align: center; }
+.text-button { margin: 0 0 20px; color: #216148; background: transparent; }
+.danger { background: #fff0ee; color: #a13934; }
+.subcategories { margin-top: 24px; }
+.progress > div { height: 100%; border-radius: inherit; background: #26705a; }
+@media (max-width: 640px) { .summary { grid-template-columns: 1fr; } dialog { padding: 18px; } .toolbar > button { width: 100%; } }
+.table-wrap table { min-width: 920px; }
+td { overflow-wrap: normal; }
+td:first-child, td:nth-child(2), td .actions button, .status { white-space: nowrap; }

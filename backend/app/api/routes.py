@@ -23,7 +23,12 @@ DB = Annotated[Session, Depends(get_db)]
 
 @router.post("/companies", response_model=CompanyResponse, status_code=201)
 def create_company(payload: CompanyCreate, db: DB):
-    return {"data": service.save(db, Company(**payload.model_dump()))}
+    from app.services.manual import seed_subcategories
+    company = Company(**payload.model_dump())
+    db.add(company)
+    db.flush()
+    seed_subcategories(db, company.id)
+    return {"data": service.save(db, company)}
 
 
 @router.get("/companies", response_model=CompaniesResponse)

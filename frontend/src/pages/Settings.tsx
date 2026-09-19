@@ -1,3 +1,4 @@
+import { Subcategories } from "../components/Subcategories";
 import { useState } from "react";
 import type { Company } from "../types";
 import { api } from "../services/api";
@@ -66,6 +67,7 @@ export function Settings({
           </p>
         )}
       </section>
+      <Subcategories companyId={company.id} />
     </>
   );
 }

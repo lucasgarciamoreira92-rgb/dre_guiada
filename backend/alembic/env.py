@@ -1,6 +1,7 @@
 from alembic import context
 from app.core.config import DATABASE_URL
 from app.db.session import Base, make_engine
+from app.models import manual  # noqa: F401
 from app.models import entities  # noqa: F401 — registers metadata for Alembic
 
 config = context.config

@@ -10,6 +10,8 @@ def test_migration_from_zero_and_roundtrip(migrated):
         "companies",
         "periods",
         "alembic_version",
+        "transactions",
+        "subcategories",
     }
     assert (
         inspect(engine).get_foreign_keys("periods")[0]["referred_table"] == "companies"
@@ -52,3 +54,32 @@ def test_database_constraints(migrated):
         with pytest.raises(IntegrityError):
             with engine.begin() as c:
                 c.execute(text(sql))
+
+
+def test_upgrade_existing_company_preserves_foundation(tmp_path):
+    from pathlib import Path
+    from alembic.config import Config
+    from app.db.session import make_engine
+
+    cfg = Config(str(Path(__file__).resolve().parents[1] / 'alembic.ini'))
+    url = f"sqlite:///{tmp_path / 'existing.db'}"
+    cfg.attributes['database_url'] = url
+    command.upgrade(cfg, '0001')
+    engine = make_engine(url)
+    with engine.begin() as c:
+        c.execute(text("INSERT INTO companies (id,name,created_at,updated_at) VALUES (1,'Existente',CURRENT_TIMESTAMP,CURRENT_TIMESTAMP)"))
+        c.execute(text("INSERT INTO periods (id,company_id,month,year,created_at) VALUES (1,1,8,2026,CURRENT_TIMESTAMP)"))
+    command.upgrade(cfg, 'head')
+    with engine.connect() as c:
+        assert c.execute(text('SELECT name FROM companies')).scalar_one() == 'Existente'
+        assert c.execute(text('SELECT COUNT(*) FROM subcategories')).scalar_one() == 20
+        assert c.execute(text('SELECT month FROM periods')).scalar_one() == 8
+        assert c.execute(text('SELECT COUNT(*) FROM transactions')).scalar_one() == 0
+    command.upgrade(cfg, 'head')
+    command.check(cfg)
+    with engine.connect() as c:
+        assert c.execute(text('SELECT COUNT(*) FROM subcategories')).scalar_one() == 20
+    command.downgrade(cfg, '0001')
+    with engine.connect() as c:
+        assert c.execute(text('SELECT name FROM companies')).scalar_one() == 'Existente'
+    engine.dispose()

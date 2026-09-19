@@ -6,6 +6,7 @@ from sqlalchemy import (
     DateTime,
     ForeignKey,
     Integer,
+    Index,
     String,
     UniqueConstraint,
 )
@@ -41,6 +42,7 @@ class Company(Base):
 class Period(Base):
     __tablename__ = "periods"
     __table_args__ = (
+        Index("uq_period_id_company", "id", "company_id", unique=True),
         UniqueConstraint(
             "company_id", "month", "year", name="uq_period_company_month_year"
         ),
