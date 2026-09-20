@@ -165,3 +165,10 @@ E2E executado isoladamente usa `validation-results/screenshots/manual/`.
 Essas imagens e os relatórios são ignorados pelo Git. O JSON em
 `validation-results/` registra plataforma, commit, banco, revisões, tabelas,
 resultado das etapas e caminhos/quantidade dos screenshots.
+
+### Marco 3.2 — validação visual interativa
+
+Execute `./scripts/validate_visual.sh` em uma sessão gráfica do Mac para percorrer
+os formulários em Chromium **headed**, com banco temporário, screenshots, vídeo
+e trace. O script verifica que o banco persistente mantém a mesma integridade,
+contagens e conteúdo lógico. Veja [fluxo, evidências e critérios](docs/MARCO_3_2.md).
