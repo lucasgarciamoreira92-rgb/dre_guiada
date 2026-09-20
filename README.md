@@ -141,3 +141,27 @@ A migration `0002_m2_transactions_subcategories.py` adiciona lançamentos e as 2
 ## Motor da DRE — Marco 3
 
 A migration `0003_m3_dre_engine_adjustments.py` adiciona ajustes do período e índice de competência. A API calcula a DRE exclusivamente no backend, com Decimal, detalhes rastreáveis e margens. O filtro é empresa + competência, independente da data ou do período de cadastro. As migrations anteriores são preservadas. Tela DRE, indicadores e ajustes explícitos estão disponíveis. Execute `./scripts/validate_local.sh` para validar todos os marcos. Fórmulas, regras de deduções e cenários em [Marco 3](docs/MARCO_3.md).
+
+### Marco 3.1 — validação local e evidência visual
+
+`./scripts/validate_local.sh` verifica o ambiente e o banco persistente da aplicação
+(`backend/dre_guiada.db` por padrão; respeita `DATABASE_URL`, resolvida a partir de
+`backend/`). Aplica `alembic upgrade head`, compara a revisão atual ao head,
+verifica as seis tabelas obrigatórias e compara o schema com os modelos.
+Depois executa migrations em bancos temporários e testes backend, build e E2E.
+Qualquer etapa obrigatória que falhar retorna exit code diferente de zero.
+
+O validador não apaga nem recria bancos. Se o banco estiver ausente, prepare-o
+explicitamente com `cd backend && .venv/bin/alembic upgrade head`. Se houver
+inconsistência, faça backup e investigue o schema/histórico antes de corrigir;
+não use `alembic stamp head` para ocultar uma migration ausente.
+
+Os E2E capturam oito telas: Boas-vindas, Empresa e período, Visão Geral,
+Receitas, Saídas, Informações Complementares, DRE e Configurações. As imagens
+ficam em `validation-results/screenshots/<execução>/01-welcome.png` até
+`08-settings.png`, com viewport desktop de 1440×900 e captura da página completa.
+Cada execução usa uma pasta nova para impedir aprovação com evidências antigas.
+E2E executado isoladamente usa `validation-results/screenshots/manual/`.
+Essas imagens e os relatórios são ignorados pelo Git. O JSON em
+`validation-results/` registra plataforma, commit, banco, revisões, tabelas,
+resultado das etapas e caminhos/quantidade dos screenshots.
